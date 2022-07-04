@@ -1,4 +1,4 @@
-package fr.lleotraas.databse
+package fr.lleotraas.database
 
 import fr.lleotraas.entities.*
 import fr.lleotraas.model.ProductOrder
@@ -25,15 +25,15 @@ class ProductOrderDatabaseManager {
         ktormDatabase = Database.connect(jdbcUrl)
     }
 
-    fun getAllStock(): List<DBProductOrderEntity> {
+    fun getAllProductOrder(): List<DBProductOrderEntity> {
         return ktormDatabase.sequenceOf(DBProductOrderTable).toList()
     }
 
-    fun getStock(productName: String): DBProductOrderEntity {
+    fun getProductOrder(productName: String): DBProductOrderEntity {
         return ktormDatabase.sequenceOf(DBProductOrderTable).first { it.productName eq productName}
     }
 
-    fun addStock(productOrderToDraft: ProductOrderToDraft): ProductOrder {
+    fun addProductOrder(productOrderToDraft: ProductOrderToDraft): ProductOrder {
         ktormDatabase.insert(DBProductOrderTable) {
             set(it.productName, productOrderToDraft.productName)
             set(it.orderId, productOrderToDraft.orderId)
@@ -50,7 +50,7 @@ class ProductOrderDatabaseManager {
         )
     }
 
-    fun updateStock(productName: String, productOrderToDraft: ProductOrderToDraft): Boolean {
+    fun updateProductOrder(productName: String, productOrderToDraft: ProductOrderToDraft): Boolean {
         val updatedRow = ktormDatabase.update(DBProductOrderTable) {
             set(it.productName, productOrderToDraft.productName)
             set(it.orderId, productOrderToDraft.orderId)
@@ -62,7 +62,7 @@ class ProductOrderDatabaseManager {
         return updatedRow > 0
     }
 
-    fun removeStock(productName: String): Boolean {
+    fun removeProductOrder(productName: String): Boolean {
         val removedRow = ktormDatabase.delete(DBProductOrderTable) {
             it.productName eq productName
         }

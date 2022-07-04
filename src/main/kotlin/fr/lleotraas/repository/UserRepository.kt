@@ -1,6 +1,6 @@
 package fr.lleotraas.repository
 
-import fr.lleotraas.databse.UserDatabaseManager
+import fr.lleotraas.database.UserDatabaseManager
 import fr.lleotraas.entities.UserToDraft
 import fr.lleotraas.model.User
 

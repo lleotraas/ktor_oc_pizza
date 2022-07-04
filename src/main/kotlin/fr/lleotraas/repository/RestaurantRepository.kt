@@ -1,6 +1,6 @@
 package fr.lleotraas.repository
 
-import fr.lleotraas.databse.RestaurantDatabaseManager
+import fr.lleotraas.database.RestaurantDatabaseManager
 import fr.lleotraas.entities.RestaurantToDraft
 import fr.lleotraas.model.Restaurant
 

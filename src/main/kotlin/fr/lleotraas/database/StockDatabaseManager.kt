@@ -1,4 +1,4 @@
-package fr.lleotraas.databse
+package fr.lleotraas.database
 
 import fr.lleotraas.entities.DBStockEntity
 import fr.lleotraas.entities.DBStockTable

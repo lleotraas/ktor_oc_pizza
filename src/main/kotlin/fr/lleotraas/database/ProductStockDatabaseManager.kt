@@ -1,8 +1,7 @@
-package fr.lleotraas.databse
+package fr.lleotraas.database
 
 import fr.lleotraas.entities.*
 import fr.lleotraas.model.ProductStock
-import fr.lleotraas.model.Stock
 import org.ktorm.database.Database
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
