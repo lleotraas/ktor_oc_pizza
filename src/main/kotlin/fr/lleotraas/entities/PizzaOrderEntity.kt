@@ -1,14 +1,11 @@
 package fr.lleotraas.entities
 
 import org.ktorm.entity.Entity
-import org.ktorm.schema.Table
-import org.ktorm.schema.boolean
-import org.ktorm.schema.float
-import org.ktorm.schema.varchar
+import org.ktorm.schema.*
 
 object DBPizzaOrderTable: Table<DBPizzaOrderEntity>("pizza_order") {
-    val id = varchar("id").primaryKey().bindTo { it.id }
-    val userId = varchar("user_id").bindTo { it.userId }
+    val id = int("id").primaryKey().bindTo { it.id }
+    val userId = int("user_id").bindTo { it.userId }
     val restaurantName = varchar("restaurant_name").bindTo { it.restaurantName }
     val creationDate = varchar("creation_date").bindTo { it.creationDate }
     val deliveryHour = varchar("delivery_hour").bindTo { it.deliveryHour }
@@ -19,8 +16,8 @@ object DBPizzaOrderTable: Table<DBPizzaOrderEntity>("pizza_order") {
 }
 
 interface DBPizzaOrderEntity: Entity<DBPizzaOrderEntity> {
-    val id: String
-    val userId: String
+    val id: Int
+    val userId: Int
     val restaurantName: String
     val creationDate: String
     val deliveryHour: String
