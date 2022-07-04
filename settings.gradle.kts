@@ -1,0 +1,1 @@
+rootProject.name = "fr.lleotraas.oc_pizza"
