@@ -1,5 +1,9 @@
 package fr.lleotraas.database
 
+import fr.lleotraas.database.Utils.databaseName
+import fr.lleotraas.database.Utils.hostname
+import fr.lleotraas.database.Utils.password
+import fr.lleotraas.database.Utils.username
 import fr.lleotraas.entities.*
 import fr.lleotraas.model.ProductOrder
 import org.ktorm.database.Database
@@ -13,10 +17,6 @@ import org.ktorm.entity.toList
 
 class ProductOrderDatabaseManager {
 
-    private val hostname = "localhost"
-    private val databaseName = "oc_pizza"
-    private val username = "root"
-    private val password = "!Ceberg1"
 
     private val ktormDatabase: Database
 

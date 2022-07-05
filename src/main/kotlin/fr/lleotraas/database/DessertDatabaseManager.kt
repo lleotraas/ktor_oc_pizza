@@ -1,5 +1,9 @@
 package fr.lleotraas.database
 
+import fr.lleotraas.database.Utils.databaseName
+import fr.lleotraas.database.Utils.hostname
+import fr.lleotraas.database.Utils.password
+import fr.lleotraas.database.Utils.username
 import fr.lleotraas.entities.DBDessertEntity
 import fr.lleotraas.entities.DBDessertTable
 import fr.lleotraas.entities.DessertToDraft
@@ -15,15 +19,10 @@ import org.ktorm.entity.toList
 
 class DessertDatabaseManager {
 
-    private val hostname = "localhost"
-    private val databaseName = "oc_pizza"
-    private val username = "root"
-    private val password = "!Ceberg1"
-
     private val ktormDatabase: Database
 
     init {
-        val jdbcUrl = "jdbc:mysql://$hostname:3306/$databaseName?user=$username&password=$password&useSSL=false"
+        val jdbcUrl = "jdbc:mysql://${hostname}:3306/$databaseName?user=$username&password=$password&useSSL=false"
         ktormDatabase = Database.connect(jdbcUrl)
     }
 
