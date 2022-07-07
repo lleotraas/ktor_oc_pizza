@@ -1,5 +1,6 @@
 package fr.lleotraas
 
+import fr.lleotraas.model.Drink
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -18,6 +19,7 @@ import io.ktor.client.statement.*
 import kotlin.test.*
 import io.ktor.server.testing.*
 import fr.lleotraas.plugins.*
+import io.ktor.client.call.*
 
 class ApplicationTest {
     @Test
@@ -25,9 +27,10 @@ class ApplicationTest {
         application {
             configureRouting()
         }
-        client.get("/").apply {
+        client.get("/desserts").apply {
+            val drinks = body<List<Drink>>()
             assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+            assertEquals("coca cola 33cl", drinks[0].name)
         }
     }
 }
