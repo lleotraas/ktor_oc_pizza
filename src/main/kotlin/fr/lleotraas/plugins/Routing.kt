@@ -96,6 +96,7 @@ fun Application.configureRouting() {
         // User
         getUsers()
         getUser()
+        accountNameExist()
         addUser()
         updateUser()
         removeUser()

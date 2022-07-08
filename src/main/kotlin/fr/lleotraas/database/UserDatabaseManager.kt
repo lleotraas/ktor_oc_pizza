@@ -14,6 +14,7 @@ import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
 import org.ktorm.dsl.update
 import org.ktorm.entity.first
+import org.ktorm.entity.firstOrNull
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 
@@ -34,19 +35,28 @@ class UserDatabaseManager {
         return ktormDatabase.sequenceOf(DBUserTable).first { it.id eq id }
     }
 
+    fun accountNameExist(accountName: String): Boolean {
+        val userExist = ktormDatabase.sequenceOf(DBUserTable).firstOrNull{ it.accountName eq accountName }
+        return userExist?.accountName == accountName
+    }
+
     fun addUser(user: UserToDraft): User {
         val insertedId = ktormDatabase.insertAndGenerateKey(DBUserTable) {
+            set(it.accountName, user.accountName)
+            set(it.accountPassword, user.accountPassword)
             set(it.firstname, user.firstname)
             set(it.lastName, user.lastName)
             set(it.phoneNumber, user.phoneNumber)
             set(it.address, user.address)
             set(it.role, user.role)
         } as Int
-        return User(insertedId, user.firstname, user.lastName, user.phoneNumber, user.address, user.role)
+        return User(insertedId, user.accountName, user.accountPassword, user.firstname, user.lastName, user.phoneNumber, user.address, user.role)
     }
 
     fun updateUser(id: Int, user: UserToDraft): Boolean {
         val updateROws = ktormDatabase.update(DBUserTable) {
+            set(it.accountName, user.accountName)
+            set(it.accountPassword, user.accountPassword)
             set(it.firstname, user.firstname)
             set(it.lastName, user.lastName)
             set(it.phoneNumber, user.phoneNumber)

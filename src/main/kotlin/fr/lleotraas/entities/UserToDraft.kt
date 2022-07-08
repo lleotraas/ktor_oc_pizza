@@ -1,6 +1,8 @@
 package fr.lleotraas.entities
 
 class UserToDraft(
+    val accountName: String,
+    val accountPassword: String,
     val firstname: String,
     val lastName: String,
     val phoneNumber: String,

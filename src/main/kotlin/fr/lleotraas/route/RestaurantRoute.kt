@@ -48,10 +48,10 @@ fun Route.addRestaurant() {
 }
 
 fun Route.updateRestaurant() {
-    get("/update/restaurant/id={name}/rname={newname}/location={address}") {
+    get("/update/restaurant/id={name}/new_name={n_name}/address={location}") {
         val restaurantName = call.parameters["name"]
-        val newName = call.parameters["newname"]
-        val address = call.parameters["address"]
+        val newName = call.parameters["n_name"]
+        val address = call.parameters["location"]
 
         if (restaurantName == null) {
             call.respond(

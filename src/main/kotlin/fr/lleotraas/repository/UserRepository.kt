@@ -9,11 +9,15 @@ class UserRepository {
     private val database = UserDatabaseManager()
 
     fun getAllUser(): List<User> {
-        return database.getAllUsers().map { User(it.id, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
+        return database.getAllUsers().map { User(it.id, it.accountName, it.accountPassword, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
     }
 
     fun getUser(id: Int): User? {
-        return database.getUser(id)?.let { User(it.id, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
+        return database.getUser(id)?.let { User(it.id, it.accountName, it.accountPassword, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
+    }
+
+    fun accountNameExist(accountName: String): Boolean {
+        return database.accountNameExist(accountName)
     }
 
     fun addUser(draft: UserToDraft): User {

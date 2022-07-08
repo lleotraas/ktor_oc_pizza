@@ -15,14 +15,23 @@ fun Route.getUsers() {
     }
 }
 
+fun Route.accountNameExist() {
+    get("/account_name_exist/account_name={an}") {
+        val accountName = call.parameters["an"]
+        call.respond(HttpStatusCode.OK, repository.accountNameExist(accountName!!))
+    }
+}
+
 fun Route.addUser() {
-    get("/add/user/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
+    get("/add/user/account_name={an}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
+        val accountName = call.parameters["an"]
+        val accountPassword = call.parameters["ap"]
         val firstname = call.parameters["fname"]
         val lastname = call.parameters["lname"]
         val phoneNumber = call.parameters["pnumber"]
         val address = call.parameters["location"]
         val role = call.parameters["employment"]
-        call.respond(HttpStatusCode.OK, repository.addUser(UserToDraft(firstname!!, lastname!!, phoneNumber!!, address!!, role!!)))
+        call.respond(HttpStatusCode.OK, repository.addUser(UserToDraft(accountName!!, accountPassword!!, firstname!!, lastname!!, phoneNumber!!, address!!, role!!)))
     }
 }
 
@@ -50,6 +59,33 @@ fun Route.getUser() {
     }
 }
 
+fun Route.updateUser() {
+    get("/update/identification={id}/account_name={an}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
+        val userId = call.parameters["id"]?.toIntOrNull()
+        val accountName = call.parameters["an"]
+        val accountPassword = call.parameters["ap"]
+        val firstname = call.parameters["fname"]
+        val lastname = call.parameters["lname"]
+        val phoneNumber = call.parameters["pnumber"]
+        val address = call.parameters["location"]
+        val role = call.parameters["employment"]
+
+        if (userId == null) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                "id parameter has to be a number"
+            )
+            return@get
+        }
+        val updated = repository.updateUser(userId, UserToDraft(accountName!!, accountPassword!!, firstname!!, lastname!!, phoneNumber!!, address!!, role!!))
+        if (updated) {
+            call.respond(HttpStatusCode.OK)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "found no user with the id $userId")
+        }
+    }
+}
+
 fun Route.removeUser() {
     get("/remove/identification={id}"){
         val userId = call.parameters["id"]?.toIntOrNull()
@@ -71,29 +107,4 @@ fun Route.removeUser() {
         }
     }
 
-}
-
-fun Route.updateUser() {
-    get("/update/identification={id}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
-        val userId = call.parameters["id"]?.toIntOrNull()
-        val firstname = call.parameters["fname"]
-        val lastname = call.parameters["lname"]
-        val phoneNumber = call.parameters["pnumber"]
-        val address = call.parameters["location"]
-        val role = call.parameters["employment"]
-
-        if (userId == null) {
-            call.respond(
-                HttpStatusCode.BadRequest,
-                "id parameter has to be a number"
-            )
-            return@get
-        }
-        val updated = repository.updateUser(userId, UserToDraft(firstname!!, lastname!!, phoneNumber!!, address!!, role!!))
-        if (updated) {
-            call.respond(HttpStatusCode.OK)
-        } else {
-            call.respond(HttpStatusCode.NotFound, "found no user with the id $userId")
-        }
-    }
 }
