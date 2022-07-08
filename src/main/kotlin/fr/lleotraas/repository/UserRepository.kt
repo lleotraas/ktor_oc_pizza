@@ -12,8 +12,8 @@ class UserRepository {
         return database.getAllUsers().map { User(it.id, it.accountName, it.accountPassword, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
     }
 
-    fun getUser(id: Int): User? {
-        return database.getUser(id)?.let { User(it.id, it.accountName, it.accountPassword, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
+    fun getUser(accountName: String): User? {
+        return database.getUser(accountName)?.let { User(it.id, it.accountName, it.accountPassword, it.firstname, it.lastName, it.phoneNumber, it.address, it.role) }
     }
 
     fun accountNameExist(accountName: String): Boolean {

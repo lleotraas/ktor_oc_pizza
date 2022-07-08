@@ -22,6 +22,30 @@ fun Route.accountNameExist() {
     }
 }
 
+fun Route.getUser() {
+    get("/user/account_name={an}") {
+        val accountName = call.parameters["an"]
+
+        if (accountName == null) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                "id parameter has to be a number"
+            )
+            return@get
+        }
+        val user = repository.getUser(accountName)
+
+        if (user == null) {
+            call.respond(
+                HttpStatusCode.NotFound,
+                "found no todo for the provided id $accountName"
+            )
+        } else {
+            call.respond(user)
+        }
+    }
+}
+
 fun Route.addUser() {
     get("/add/user/account_name={an}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
         val accountName = call.parameters["an"]
@@ -34,31 +58,6 @@ fun Route.addUser() {
         call.respond(HttpStatusCode.OK, repository.addUser(UserToDraft(accountName!!, accountPassword!!, firstname!!, lastname!!, phoneNumber!!, address!!, role!!)))
     }
 }
-
-fun Route.getUser() {
-    get("/user/identification={id}") {
-        val userId = call.parameters["id"]?.toIntOrNull()
-
-        if (userId == null) {
-            call.respond(
-                HttpStatusCode.BadRequest,
-                "id parameter has to be a number"
-            )
-            return@get
-        }
-        val user = repository.getUser(userId)
-
-        if (user == null) {
-            call.respond(
-                HttpStatusCode.NotFound,
-                "found no todo for the provided id $userId"
-            )
-        } else {
-            call.respond(user)
-        }
-    }
-}
-
 fun Route.updateUser() {
     get("/update/identification={id}/account_name={an}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
         val userId = call.parameters["id"]?.toIntOrNull()

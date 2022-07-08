@@ -31,8 +31,8 @@ class UserDatabaseManager {
         return ktormDatabase.sequenceOf(DBUserTable).toList()
     }
 
-    fun getUser(id: Int): DBUserEntity {
-        return ktormDatabase.sequenceOf(DBUserTable).first { it.id eq id }
+    fun getUser(accountUser: String): DBUserEntity {
+        return ktormDatabase.sequenceOf(DBUserTable).first { it.accountName eq accountUser}
     }
 
     fun accountNameExist(accountName: String): Boolean {
