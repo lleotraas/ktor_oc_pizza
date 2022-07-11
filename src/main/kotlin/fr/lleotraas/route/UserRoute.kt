@@ -59,9 +59,9 @@ fun Route.addUser() {
     }
 }
 fun Route.updateUser() {
-    get("/update/identification={id}/account_name={an}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
-        val userId = call.parameters["id"]?.toIntOrNull()
+    get("/update/account_name={an}/new_account_name={nan}/account_password={ap}/firstname={fname}/lastname={lname}/phone={pnumber}/address={location}/role={employment}") {
         val accountName = call.parameters["an"]
+        val newAccountName = call.parameters["nan"]
         val accountPassword = call.parameters["ap"]
         val firstname = call.parameters["fname"]
         val lastname = call.parameters["lname"]
@@ -69,39 +69,39 @@ fun Route.updateUser() {
         val address = call.parameters["location"]
         val role = call.parameters["employment"]
 
-        if (userId == null) {
+        if (accountName == null) {
             call.respond(
                 HttpStatusCode.BadRequest,
                 "id parameter has to be a number"
             )
             return@get
         }
-        val updated = repository.updateUser(userId, UserToDraft(accountName!!, accountPassword!!, firstname!!, lastname!!, phoneNumber!!, address!!, role!!))
+        val updated = repository.updateUser(accountName, UserToDraft(newAccountName!!, accountPassword!!, firstname!!, lastname!!, phoneNumber!!, address!!, role!!))
         if (updated) {
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, true)
         } else {
-            call.respond(HttpStatusCode.NotFound, "found no user with the id $userId")
+            call.respond(HttpStatusCode.NotFound, "found no user with the account_name $accountName")
         }
     }
 }
 
 fun Route.removeUser() {
-    get("/remove/identification={id}"){
-        val userId = call.parameters["id"]?.toIntOrNull()
+    get("/remove/account_name={an}"){
+        val accountName = call.parameters["an"]
 
-        if (userId == null) {
+        if (accountName == null) {
             call.respond(
                 HttpStatusCode.BadRequest,
                 "id parameter has to be a number"
             )
             return@get
         }
-        val removed = repository.removeUser(userId)
+        val removed = repository.removeUser(accountName)
         if (removed) {
-            call.respond(HttpStatusCode.OK, "successfully removed")
+            call.respond(HttpStatusCode.OK, true)
 
         } else {
-            call.respond(HttpStatusCode.NotFound, "found no user with the id $userId")
+            call.respond(HttpStatusCode.NotFound, "found no user with the id $accountName")
 
         }
     }

@@ -9,10 +9,7 @@ import fr.lleotraas.entities.DBUserTable
 import fr.lleotraas.entities.UserToDraft
 import fr.lleotraas.model.User
 import org.ktorm.database.Database
-import org.ktorm.dsl.delete
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.dsl.update
+import org.ktorm.dsl.*
 import org.ktorm.entity.first
 import org.ktorm.entity.firstOrNull
 import org.ktorm.entity.sequenceOf
@@ -41,7 +38,7 @@ class UserDatabaseManager {
     }
 
     fun addUser(user: UserToDraft): User {
-        val insertedId = ktormDatabase.insertAndGenerateKey(DBUserTable) {
+        ktormDatabase.insert(DBUserTable) {
             set(it.accountName, user.accountName)
             set(it.accountPassword, user.accountPassword)
             set(it.firstname, user.firstname)
@@ -49,11 +46,11 @@ class UserDatabaseManager {
             set(it.phoneNumber, user.phoneNumber)
             set(it.address, user.address)
             set(it.role, user.role)
-        } as Int
-        return User(insertedId, user.accountName, user.accountPassword, user.firstname, user.lastName, user.phoneNumber, user.address, user.role)
+        }
+        return User(user.accountName, user.accountPassword, user.firstname, user.lastName, user.phoneNumber, user.address, user.role)
     }
 
-    fun updateUser(id: Int, user: UserToDraft): Boolean {
+    fun updateUser(accountName: String, user: UserToDraft): Boolean {
         val updateROws = ktormDatabase.update(DBUserTable) {
             set(it.accountName, user.accountName)
             set(it.accountPassword, user.accountPassword)
@@ -63,15 +60,15 @@ class UserDatabaseManager {
             set(it.address, user.address)
             set(it.role, user.role)
             where {
-                it.id eq id
+                it.accountName eq accountName
             }
         }
         return updateROws > 0
     }
 
-    fun removeUser(id: Int): Boolean {
+    fun removeUser(accountName: String): Boolean {
         val deletedRows = ktormDatabase.delete(DBUserTable) {
-            it.id eq id
+            it.accountName eq accountName
         }
         return deletedRows > 0
     }

@@ -6,7 +6,6 @@ import org.ktorm.schema.int
 import org.ktorm.schema.varchar
 
 object DBUserTable: Table<DBUserEntity>("user") {
-    val id = int("id").primaryKey().bindTo { it.id }
     val accountName = varchar("account_name").bindTo { it.accountName }
     val accountPassword = varchar("account_password").bindTo { it.accountPassword }
     val firstname = varchar("first_name").bindTo { it.firstname }
@@ -18,7 +17,6 @@ object DBUserTable: Table<DBUserEntity>("user") {
 
 interface DBUserEntity: Entity<DBUserEntity> {
     companion object : Entity.Factory<DBUserEntity>()
-    val id: Int
     val accountName: String
     val accountPassword: String
     val firstname: String
